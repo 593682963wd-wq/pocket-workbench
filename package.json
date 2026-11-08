@@ -1,0 +1,11 @@
+{
+  "name": "external-pocket-workbench",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test:browser": "node test-browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}

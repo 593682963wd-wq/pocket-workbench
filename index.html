@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4f8cff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1420" media="(prefers-color-scheme: dark)">
+<title>掌上工作台</title>
+<meta name="description" content="离线工作台：网址分组、待办和便签">
+<!-- iOS PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="掌上工作台">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- 顶部：问候 + 时钟 + 天气 -->
+  <header class="topbar">
+    <div class="greet-row">
+      <h1 class="greeting" id="greeting">你好</h1>
+      <button class="icon-btn" id="btnSettings" aria-label="设置">⚙︎</button>
+    </div>
+    <div class="time-row">
+      <span class="clock" id="clock">--:--</span>
+      <span class="date" id="date">----年--月--日</span>
+    </div>
+  </header>
+
+  <!-- 网址导航 -->
+  <section class="card links-card">
+    <div class="card-head">
+      <h2>常用网址</h2>
+      <div class="links-actions">
+        <button class="btn btn-ghost" id="btnManageGroups">分组</button>
+        <button class="btn btn-primary btn-sm" id="btnAddLink">＋ 添加</button>
+      </div>
+    </div>
+    <div class="group-tabs" id="groupTabs" role="tablist"></div>
+    <div class="links-grid" id="linksGrid"></div>
+    <p class="empty-hint" id="linksEmpty">还没有网址，点「添加」放一个吧</p>
+  </section>
+
+  <!-- 待办 -->
+  <section class="card todo-card">
+    <div class="card-head">
+      <h2>待办清单</h2>
+      <span class="todo-count" id="todoCount">0 项</span>
+    </div>
+    <form id="todoForm" class="todo-form">
+      <input type="text" id="todoInput" class="text-input" placeholder="添加待办事项…" autocomplete="off">
+      <button type="submit" class="btn btn-primary btn-sm">添加</button>
+    </form>
+    <ul class="todo-list" id="todoList"></ul>
+  </section>
+
+  <!-- 便签 -->
+  <section class="card note-card">
+    <div class="card-head">
+      <h2>便签</h2>
+      <span class="note-saved" id="noteSaved">已自动保存</span>
+    </div>
+    <textarea id="noteText" class="note-textarea" placeholder="随手记点什么…（自动保存到本机）" rows="5"></textarea>
+  </section>
+
+  <footer class="footer">数据仅保存在本机 · 可添加到主屏幕使用</footer>
+</div>
+
+<!-- 添加网址弹窗 -->
+<div class="modal-mask" id="linkModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3>添加网址</h3>
+    <label class="field">
+      <span>名称</span>
+      <input type="text" id="linkName" class="text-input" placeholder="例如：学习资料">
+    </label>
+    <label class="field">
+      <span>网址</span>
+      <input type="url" id="linkUrl" class="text-input" placeholder="https://…">
+    </label>
+    <label class="field">
+      <span>分组</span>
+      <select id="linkGroup" class="text-input"></select>
+    </label>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btnLinkCancel">取消</button>
+      <button class="btn btn-primary" id="btnLinkSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 分组管理弹窗 -->
+<div class="modal-mask" id="groupModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3>管理分组</h3>
+    <form id="groupForm" class="todo-form">
+      <input type="text" id="groupInput" class="text-input" placeholder="新分组名称" autocomplete="off">
+      <button type="submit" class="btn btn-primary btn-sm">新增</button>
+    </form>
+    <ul class="group-manage-list" id="groupManageList"></ul>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btnGroupDone">完成</button>
+    </div>
+  </div>
+</div>
+
+<!-- 设置弹窗 -->
+<div class="modal-mask" id="settingsModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3>设置</h3>
+    <label class="field">
+      <span>外观</span>
+      <select id="setTheme" class="text-input">
+        <option value="auto">跟随系统</option>
+        <option value="light">浅色</option>
+        <option value="dark">深色</option>
+      </select>
+    </label>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="btnSettingsCancel">取消</button>
+      <button class="btn btn-primary" id="btnSettingsSave">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+<button class="fab" id="fabAdd" aria-label="添加网址">＋</button>
+
+<script src="app.js"></script>
+</body>
+</html>

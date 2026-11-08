@@ -1,0 +1,20 @@
+{
+  "name": "掌上工作台",
+  "short_name": "工作台",
+  "description": "离线网址分组、待办和便签",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#eef1f6",
+  "theme_color": "#4f8cff",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
